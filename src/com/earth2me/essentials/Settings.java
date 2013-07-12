@@ -1098,4 +1098,10 @@ public class Settings implements ISettings
 	{
 		return config.getLong("max-tempban-time", -1);
 	}
+        
+        @Override
+        public int getMaxNickLength()
+        {
+            return config.getInt("max-nick-length", 30);
+        }
 }
