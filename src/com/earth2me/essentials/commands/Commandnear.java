@@ -19,7 +19,15 @@ public class Commandnear extends EssentialsCommand
 	@Override
 	protected void run(final Server server, final User user, final String commandLabel, final String[] args) throws Exception
 	{
-		long radius = 200;
+		long maxRadius = ess.getSettings().getChatRadius();
+		
+		if (maxRadius == 0)
+		{
+			maxRadius = 200;
+		}
+		
+		long radius = maxRadius;
+		
 		User otherUser = null;
 
 		if (args.length > 0)
@@ -49,6 +57,12 @@ public class Commandnear extends EssentialsCommand
 				}
 			}
 		}
+		
+		if (radius > maxRadius && !user.isAuthorized("essentials.near.maxexempt"))
+		{
+			user.sendMessage(_("radiusTooBig", maxRadius));
+		}
+		
 		if (otherUser == null || user.isAuthorized("essentials.near.others"))
 		{
 			user.sendMessage(_("nearbyPlayers", getLocal(server, otherUser == null ? user : otherUser, radius)));

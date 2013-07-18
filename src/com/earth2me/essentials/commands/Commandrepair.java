@@ -1,5 +1,6 @@
 package com.earth2me.essentials.commands;
 
+import net.ess3.api.IUser;
 import com.earth2me.essentials.utils.StringUtil;
 import static com.earth2me.essentials.I18n._;
 import com.earth2me.essentials.*;
@@ -61,7 +62,7 @@ public class Commandrepair extends EssentialsCommand
 		repairItem(item);
 
 		charge.charge(user);
-
+		user.updateInventory();
 		user.sendMessage(_("repair", itemName.replace('_', ' ')));
 	}
 
@@ -74,7 +75,8 @@ public class Commandrepair extends EssentialsCommand
 		{
 			repairItems(user.getInventory().getArmorContents(), user, repaired);
 		}
-
+		
+		user.updateInventory();
 		if (repaired.isEmpty())
 		{
 			throw new Exception(_("repairNone"));

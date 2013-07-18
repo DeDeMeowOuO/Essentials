@@ -1,12 +1,13 @@
 package com.earth2me.essentials.api;
 
 import java.util.Collection;
+import net.ess3.api.IUser;
 import org.bukkit.Location;
 
 
 public interface IJails extends IReload
 {
-	/**
+		/**
 	 * Gets the location of the jail with the given name
 	 * @param jailName The name of the jail
 	 * @return the location of the jail
@@ -40,7 +41,7 @@ public interface IJails extends IReload
 	 * @param jail the jail to send the user to
 	 * @throws Exception if the user is offline or jail does not exist
 	 */
-	void sendToJail(com.earth2me.essentials.IUser user, String jail) throws Exception;
+	void sendToJail(IUser user, String jail) throws Exception;
 
 	/**
 	 * Set a new jail with the given name and location

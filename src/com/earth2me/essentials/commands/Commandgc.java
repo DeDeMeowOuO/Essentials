@@ -1,12 +1,12 @@
 package com.earth2me.essentials.commands;
 
 import static com.earth2me.essentials.I18n._;
-import com.earth2me.essentials.utils.StringUtil;
-import com.earth2me.essentials.utils.NumberUtil;
 import com.earth2me.essentials.utils.DateUtil;
+import com.earth2me.essentials.utils.NumberUtil;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -56,8 +56,14 @@ public class Commandgc extends EssentialsCommand
 				worldType = "The End";
 				break;
 			}
+			
+			int tileEntities = 0;
+			
+			for (Chunk chunk : w.getLoadedChunks()) {
+				tileEntities += chunk.getTileEntities().length;
+			}
 
-			sender.sendMessage(_("gcWorld", worldType, w.getName(), w.getLoadedChunks().length, w.getEntities().size()));
+			sender.sendMessage(_("gcWorld", worldType, w.getName(), w.getLoadedChunks().length, w.getEntities().size(), tileEntities));
 		}
 	}
 }

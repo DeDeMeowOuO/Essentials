@@ -2,9 +2,8 @@ package com.earth2me.essentials;
 
 import com.earth2me.essentials.utils.StringUtil;
 import static com.earth2me.essentials.I18n._;
-import com.earth2me.essentials.api.IWarps;
-import com.earth2me.essentials.api.InvalidNameException;
-import com.earth2me.essentials.api.InvalidWorldException;
+import net.ess3.api.InvalidNameException;
+import net.ess3.api.InvalidWorldException;
 import com.earth2me.essentials.commands.WarpNotFoundException;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 
 
-public class Warps implements IConf, IWarps
+public class Warps implements IConf, net.ess3.api.IWarps
 {
 	private static final Logger logger = Logger.getLogger("Minecraft");
 	private final Map<StringIgnoreCase, EssentialsConf> warpPoints = new HashMap<StringIgnoreCase, EssentialsConf>();

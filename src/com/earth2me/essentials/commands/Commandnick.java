@@ -2,7 +2,6 @@ package com.earth2me.essentials.commands;
 
 import static com.earth2me.essentials.I18n._;
 import com.earth2me.essentials.User;
-import com.earth2me.essentials.utils.StringUtil;
 import com.earth2me.essentials.utils.FormatUtil;
 import java.util.Locale;
 import org.bukkit.Server;
@@ -95,10 +94,10 @@ public class Commandnick extends EssentialsCommand
 		{
 			throw new Exception(_("nickNamesAlpha"));
 		}
-                else if (nick.length() > ess.getSettings().getMaxNickLength())
-                {
-                    throw new Exception(_("nickTooLong"));
-                }
+		else if (nick.length() > ess.getSettings().getMaxNickLength())
+		{
+			throw new Exception(_("nickTooLong"));
+		}
 		else if (target.getName().equalsIgnoreCase(nick))
 		{
 			target.setNickname(nick);

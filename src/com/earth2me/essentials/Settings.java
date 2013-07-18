@@ -1,5 +1,6 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
 import static com.earth2me.essentials.I18n._;
 import com.earth2me.essentials.commands.IEssentialsCommand;
 import com.earth2me.essentials.signs.EssentialsSign;
@@ -9,7 +10,6 @@ import com.earth2me.essentials.textreader.SimpleTextInput;
 import com.earth2me.essentials.utils.FormatUtil;
 import java.io.File;
 import java.math.BigDecimal;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +21,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.ItemStack;
 
 
-public class Settings implements ISettings
+public class Settings implements net.ess3.api.ISettings
 {
 	private final transient EssentialsConf config;
 	private final static Logger logger = Logger.getLogger("Minecraft");
@@ -402,25 +402,26 @@ public class Settings implements ISettings
 	{
 		return config.getString("backup.command", null);
 	}
-	private Map<String, MessageFormat> chatFormats = Collections.synchronizedMap(new HashMap<String, MessageFormat>());
+	private Map<String, String> chatFormats = Collections.synchronizedMap(new HashMap<String, String>());
 
 	@Override
-	public MessageFormat getChatFormat(String group)
+	public String getChatFormat(String group)
 	{
-		MessageFormat mFormat = chatFormats.get(group);
+		String mFormat = chatFormats.get(group);
 		if (mFormat == null)
 		{
-			String format = config.getString("chat.group-formats." + (group == null ? "Default" : group),
+			mFormat = config.getString("chat.group-formats." + (group == null ? "Default" : group),
 											 config.getString("chat.format", "&7[{GROUP}]&r {DISPLAYNAME}&7:&r {MESSAGE}"));
-			format = FormatUtil.replaceFormat(format);
-			format = format.replace("{DISPLAYNAME}", "%1$s");
-			format = format.replace("{GROUP}", "{0}");
-			format = format.replace("{MESSAGE}", "%2$s");
-			format = format.replace("{WORLDNAME}", "{1}");
-			format = format.replace("{SHORTWORLDNAME}", "{2}");
-			format = format.replaceAll("\\{(\\D*?)\\}", "\\[$1\\]");
-			format = "§r".concat(format);
-			mFormat = new MessageFormat(format);
+			mFormat = FormatUtil.replaceFormat(mFormat);
+			mFormat = mFormat.replace("{DISPLAYNAME}", "%1$s");
+			mFormat = mFormat.replace("{MESSAGE}", "%2$s");
+			mFormat = mFormat.replace("{GROUP}", "{0}");
+			mFormat = mFormat.replace("{WORLDNAME}", "{1}");
+			mFormat = mFormat.replace("{SHORTWORLDNAME}", "{2}");
+			mFormat = mFormat.replace("{TEAMPREFIX}", "{3}");
+			mFormat = mFormat.replace("{TEAMSUFFIX}", "{4}");
+			mFormat = mFormat.replace("{TEAMNAME}", "{5}");
+			mFormat = "§r".concat(mFormat);
 			chatFormats.put(group, mFormat);
 		}
 		return mFormat;
@@ -742,7 +743,7 @@ public class Settings implements ISettings
 	{
 		return config.getBoolean("economy-log-enabled", false);
 	}
-	// #easteregg	
+	// #easteregg
 	private boolean economyLogUpdate = false;
 
 	@Override
@@ -1098,10 +1099,17 @@ public class Settings implements ISettings
 	{
 		return config.getLong("max-tempban-time", -1);
 	}
-        
-        @Override
-        public int getMaxNickLength()
-        {
-            return config.getInt("max-nick-length", 30);
-        }
+
+	@Override
+	public int getMaxNickLength()
+	{
+		return config.getInt("max-nick-length", 30);
+	}
+	
+	// #easteregg
+	public int getMaxUserCacheCount()
+	{
+		long count = Runtime.getRuntime().maxMemory() / 1024 / 96;
+		return config.getInt("max-user-cache-count", (int)count);
+	}
 }

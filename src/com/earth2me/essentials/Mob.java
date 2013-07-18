@@ -21,8 +21,8 @@ public enum Mob
 	CREEPER("Creeper", Enemies.ENEMY, EntityType.CREEPER),
 	GHAST("Ghast", Enemies.ENEMY, EntityType.GHAST),
 	GIANT("Giant", Enemies.ENEMY, EntityType.GIANT),
+	HORSE("Horse", Enemies.FRIENDLY, EntityType.HORSE),
 	PIG("Pig", Enemies.FRIENDLY, EntityType.PIG),
-        HORSE("Horse", Enemies.FRIENDLY, EntityType.HORSE),
 	PIGZOMB("PigZombie", Enemies.NEUTRAL, EntityType.PIG_ZOMBIE),
 	SHEEP("Sheep", Enemies.FRIENDLY, "", EntityType.SHEEP),
 	SKELETON("Skeleton", Enemies.ENEMY, EntityType.SKELETON),
@@ -51,6 +51,7 @@ public enum Mob
 	MINECART_FURNACE("FurnaceMinecart", Enemies.NEUTRAL, EntityType.MINECART_FURNACE),
 	MINECART_TNT("TNTMinecart", Enemies.NEUTRAL, EntityType.MINECART_TNT),
 	MINECART_HOPPER("HopperMinecart", Enemies.NEUTRAL, EntityType.MINECART_HOPPER),
+	MINECART_MOB_SPAWNER("SpawnerMinecart", Enemies.NEUTRAL, EntityType.MINECART_MOB_SPAWNER),
 	ENDERCRYSTAL("EnderCrystal", Enemies.NEUTRAL, EntityType.ENDER_CRYSTAL),
 	EXPERIENCEORB("ExperienceOrb", Enemies.NEUTRAL, EntityType.EXPERIENCE_ORB);
 	public static final Logger logger = Logger.getLogger("Minecraft");
@@ -74,12 +75,14 @@ public enum Mob
 	final public Enemies type;
 	final private EntityType bukkitType;
 	private static final Map<String, Mob> hashMap = new HashMap<String, Mob>();
+	private static final Map<EntityType, Mob> bukkitMap = new HashMap<EntityType, Mob>();
 
 	static
 	{
 		for (Mob mob : Mob.values())
 		{
 			hashMap.put(mob.name.toLowerCase(Locale.ENGLISH), mob);
+			bukkitMap.put(mob.bukkitType, mob);
 		}
 	}
 
@@ -123,6 +126,10 @@ public enum Mob
 		return hashMap.get(name.toLowerCase(Locale.ENGLISH));
 	}
 
+	public static Mob fromBukkitType(final EntityType type)
+	{
+		return bukkitMap.get(type);
+	}
 
 	public static class MobException extends Exception
 	{

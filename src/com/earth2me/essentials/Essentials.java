@@ -17,9 +17,11 @@
  */
 package com.earth2me.essentials;
 
+import net.ess3.api.ISettings;
+import net.ess3.api.IEssentials;
 import static com.earth2me.essentials.I18n._;
-import com.earth2me.essentials.api.Economy;
-import com.earth2me.essentials.api.IJails;
+import net.ess3.api.Economy;
+import net.ess3.api.IJails;
 import com.earth2me.essentials.commands.EssentialsCommand;
 import com.earth2me.essentials.commands.IEssentialsCommand;
 import com.earth2me.essentials.commands.NoChargeException;
@@ -48,7 +50,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import net.ess3.api.IItemDb;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -73,14 +75,13 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
-
 import org.yaml.snakeyaml.error.YAMLException;
 
 
-public class Essentials extends MPlugin implements IEssentials
+public class Essentials extends MPlugin implements net.ess3.api.IEssentials
 {
-	public static final int BUKKIT_VERSION = 2808;
-        public static final int SPIGOT_VERSION = 1022;
+	public static final int BUKKIT_VERSION = 2812;
+        public static final int SPIGOT_VERSION = 1018;
 	private static final Logger LOGGER = Logger.getLogger("Minecraft");
 	private transient ISettings settings;
 	private final transient TNTExplodeListener tntListener = new TNTExplodeListener(this);
@@ -171,12 +172,13 @@ public class Essentials extends MPlugin implements IEssentials
 				LOGGER.log(Level.SEVERE, " * ! * ! * ! * ! * ! * ! * ! * ! * ! * ! * ! * ! *");
 				this.setEnabled(false);
 				return;
-                        }
+		}
 		}
 		else
 		{
 			LOGGER.log(Level.INFO, _("bukkitFormatChanged"));
 			LOGGER.log(Level.INFO, getServer().getVersion());
+			LOGGER.log(Level.INFO, getServer().getBukkitVersion());
 		}
 		execTimer.mark("BukkitCheck");
 		try
@@ -256,8 +258,15 @@ public class Essentials extends MPlugin implements IEssentials
 		final String timeroutput = execTimer.end();
 		if (getSettings().isDebug())
 		{
+			LOGGER.log(Level.INFO, "Essentials load " + timeroutput);
 		}
             postEnable();
+	}
+
+	@Override
+	public void saveConfig()
+	{
+		// We don't use any of the bukkit config writing, as this breaks our config file formatting.
 	}
 
 	private void registerListeners(PluginManager pm)
@@ -265,6 +274,7 @@ public class Essentials extends MPlugin implements IEssentials
 
 		if (getSettings().isDebug())
 		{
+			LOGGER.log(Level.INFO, "Registering Listeners");
 		}
 
 		final EssentialsPluginListener serverListener = new EssentialsPluginListener(this);
@@ -366,31 +376,32 @@ public class Essentials extends MPlugin implements IEssentials
 		try
 		{
 			User user = null;
-                        Block bSenderBlock = null;
+			Block bSenderBlock = null;
 			if (sender instanceof Player)
 			{
 				user = getUser(sender);
 			}
-                        else if (sender instanceof BlockCommandSender)
-                        {
-                            BlockCommandSender bsender = (BlockCommandSender)sender;
-                            bSenderBlock = bsender.getBlock();
-                        }
-      
-                        if (bSenderBlock != null)
-                        {
-                            Bukkit.getLogger().log(Level.INFO, "CommandBlock at {0},{1},{2} issued server command: /{3} {4}", new Object[]
-                            {
-                                 bSenderBlock.getX(), bSenderBlock.getY(), bSenderBlock.getZ(), commandLabel, EssentialsCommand.getFinalArg(args, 0)
-                            });
-                        }
-                        else if (user == null)
-                        {
-                            Bukkit.getLogger().log(Level.INFO, "{0} issued server command: /{1} {2}", new Object[]
-                            {
-                                sender.getName(), commandLabel, EssentialsCommand.getFinalArg(args, 0)
-                            });
-                        }
+			else if (sender instanceof BlockCommandSender)
+			{
+				BlockCommandSender bsender = (BlockCommandSender)sender;
+				bSenderBlock = bsender.getBlock();
+			}
+
+			if (bSenderBlock != null)
+			{
+				Bukkit.getLogger().log(Level.INFO, "CommandBlock at {0},{1},{2} issued server command: /{3} {4}", new Object[]
+				{
+					bSenderBlock.getX(), bSenderBlock.getY(), bSenderBlock.getZ(), commandLabel, EssentialsCommand.getFinalArg(args, 0)
+				});
+			}
+			else if (user == null)
+			{
+				Bukkit.getLogger().log(Level.INFO, "{0} issued server command: /{1} {2}", new Object[]
+				{
+					sender.getName(), commandLabel, EssentialsCommand.getFinalArg(args, 0)
+				});
+			}
+
 
 			// New mail notification
 			if (user != null && !getSettings().isCommandDisabled("mail") && !command.getName().equals("mail") && user.isAuthorized("essentials.mail"))
@@ -402,7 +413,7 @@ public class Essentials extends MPlugin implements IEssentials
 				}
 			}
 
-			//Print version even if admin command is not available
+			//Print version even if admin command is not available #easteregg
 			if (commandLabel.equalsIgnoreCase("essversion"))
 			{
 				sender.sendMessage("This server is running Essentials " + getDescription().getVersion());
@@ -442,7 +453,7 @@ public class Essentials extends MPlugin implements IEssentials
 			// Check authorization
 			if (user != null && !user.isAuthorized(cmd, permissionPrefix))
 			{
-				LOGGER.log(Level.WARNING, _("deniedAccessCommand", user.getName()));
+				LOGGER.log(Level.INFO, _("deniedAccessCommand", user.getName()));
 				user.sendMessage(_("noAccessCommand"));
 				return true;
 			}
@@ -651,9 +662,9 @@ public class Essentials extends MPlugin implements IEssentials
 	{
 		return paymentMethod;
 	}
-        
-        @Override
-        public int broadcastMessage(final String message)
+
+	@Override
+	public int broadcastMessage(final String message)
 	{
 		return broadcastMessage(null, null, message, true);
 	}
@@ -664,10 +675,10 @@ public class Essentials extends MPlugin implements IEssentials
 		return broadcastMessage(sender, null, message, false);
 	}
 
-        @Override
-        public int broadcastMessage(String permission, final String message)
+	@Override
+	public int broadcastMessage(final String permission, final String message)
 	{
-		return broadcastMessage(null, permission, message, true);
+		return broadcastMessage(null, permission, message, false);
 	}
 
 	private int broadcastMessage(final IUser sender, final String permission, final String message, final boolean keywords)
@@ -750,7 +761,7 @@ public class Essentials extends MPlugin implements IEssentials
 	}
 
 	@Override
-	public ItemDb getItemDb()
+	public IItemDb getItemDb()
 	{
 		return itemDb;
 	}

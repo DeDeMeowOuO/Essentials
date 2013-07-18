@@ -1,5 +1,6 @@
 package com.earth2me.essentials;
 
+import com.earth2me.essentials.api.IItemDb;
 import com.earth2me.essentials.api.IJails;
 import com.earth2me.essentials.api.IWarps;
 import com.earth2me.essentials.metrics.Metrics;
@@ -29,8 +30,8 @@ public interface IEssentials extends Plugin
 	User getOfflineUser(String name);
 
 	World getWorld(String name);
-        
-        int broadcastMessage(String message);
+
+	int broadcastMessage(String message);
 
 	int broadcastMessage(IUser sender, String message);
 
@@ -68,7 +69,7 @@ public interface IEssentials extends Plugin
 
 	void showError(final CommandSender sender, final Throwable exception, final String commandLabel);
 
-	ItemDb getItemDb();
+	IItemDb getItemDb();
 
 	UserMap getUserMap();
 

@@ -1,8 +1,8 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
 import com.earth2me.essentials.utils.StringUtil;
 import static com.earth2me.essentials.I18n._;
-import com.earth2me.essentials.api.IItemDb;
 import com.earth2me.essentials.utils.NumberUtil;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 
-public class ItemDb implements IConf, IItemDb
+public class ItemDb implements IConf, net.ess3.api.IItemDb
 {
 	private final transient IEssentials ess;
 
@@ -142,6 +142,50 @@ public class ItemDb implements IConf, IItemDb
 		return retval;
 	}
 
+	@Override
+	public List<ItemStack> getMatching(User user, String[] args) throws Exception
+	{
+		List<ItemStack> is = new ArrayList<ItemStack>();
+
+		if (args.length < 1)
+		{
+			is.add(user.getItemInHand());
+		}
+		else if (args[0].equalsIgnoreCase("hand"))
+		{
+			is.add(user.getItemInHand());
+		}
+		else if (args[0].equalsIgnoreCase("inventory") || args[0].equalsIgnoreCase("invent") || args[0].equalsIgnoreCase("all"))
+		{
+			for (ItemStack stack : user.getInventory().getContents())
+			{
+				if (stack == null || stack.getType() == Material.AIR)
+				{
+					continue;
+				}
+				is.add(stack);
+			}
+		}
+		else if (args[0].equalsIgnoreCase("blocks"))
+		{
+			for (ItemStack stack : user.getInventory().getContents())
+			{
+				if (stack == null || stack.getTypeId() > 255 || stack.getType() == Material.AIR)
+				{
+					continue;
+				}
+				is.add(stack);
+			}
+		}
+		else
+		{
+			is.add(get(args[0]));
+		}
+
+		return is;
+	}
+
+	@Override
 	public String names(ItemStack item)
 	{
 		ItemData itemData = new ItemData(item.getTypeId(), item.getDurability());

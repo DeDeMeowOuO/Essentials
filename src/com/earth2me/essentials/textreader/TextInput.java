@@ -1,6 +1,6 @@
 package com.earth2me.essentials.textreader;
 
-import com.earth2me.essentials.IEssentials;
+import net.ess3.api.IEssentials;
 import com.earth2me.essentials.User;
 import com.earth2me.essentials.utils.StringUtil;
 import java.io.*;
@@ -61,7 +61,8 @@ public class TextInput implements IText
 			}
 			if (readFromfile)
 			{
-				final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+				final Reader reader = new InputStreamReader(new FileInputStream(file), "utf-8");
+				final BufferedReader bufferedReader = new BufferedReader(reader);
 				try
 				{
 					int lineNumber = 0;
@@ -83,6 +84,7 @@ public class TextInput implements IText
 				}
 				finally
 				{
+					reader.close();
 					bufferedReader.close();
 				}
 			}

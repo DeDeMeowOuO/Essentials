@@ -4,7 +4,6 @@ import com.earth2me.essentials.commands.IEssentialsCommand;
 import com.earth2me.essentials.signs.EssentialsSign;
 import com.earth2me.essentials.textreader.IText;
 import java.math.BigDecimal;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +26,7 @@ public interface ISettings extends IConf
 
 	long getBackupInterval();
 
-	MessageFormat getChatFormat(String group);
+	String getChatFormat(String group);
 
 	int getChatRadius();
 
@@ -147,7 +146,7 @@ public interface ISettings extends IConf
 
 	boolean areDeathMessagesEnabled();
 
-	public void setDebug(boolean debug);
+	void setDebug(boolean debug);
 
 	Set<String> getNoGodWorlds();
 
@@ -185,15 +184,17 @@ public interface ISettings extends IConf
 
 	double getMaxWalkSpeed();
 
-	public int getMailsPerMinute();
+	int getMailsPerMinute();
 
-	public long getEconomyLagWarning();
+	long getEconomyLagWarning();
 
-	public void setEssentialsChatActive(boolean b);
+	void setEssentialsChatActive(boolean b);
 
 	long getMaxTempban();
 
-	public Map<String, Object> getListGroupConfig();
-        
-        public int getMaxNickLength();
+	Map<String, Object> getListGroupConfig();
+
+	int getMaxNickLength();
+	
+	int getMaxUserCacheCount();
 }

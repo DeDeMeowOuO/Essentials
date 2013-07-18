@@ -1,10 +1,9 @@
 package com.earth2me.essentials.api;
 
 import com.earth2me.essentials.IConf;
+import com.earth2me.essentials.commands.WarpNotFoundException;
 import java.io.File;
 import java.util.Collection;
-
-import com.earth2me.essentials.commands.WarpNotFoundException;
 import org.bukkit.Location;
 
 
@@ -18,7 +17,7 @@ public interface IWarps extends IConf
 	 * @throws WarpNotFoundException When the warp is not found
 	 * @throws InvalidWorldException When the world the warp is in is not found
 	 */
-	Location getWarp(String warp) throws WarpNotFoundException, InvalidWorldException;
+	Location getWarp(String warp) throws WarpNotFoundException, net.ess3.api.InvalidWorldException;
 
 	/**
 	 * Gets a list of warps
@@ -65,5 +64,5 @@ public interface IWarps extends IConf
 	 * @return - an instance of the file
 	 * @throws InvalidNameException - When the file is not found
 	 */
-	File getWarpFile(String name) throws InvalidNameException;
+	File getWarpFile(String name) throws net.ess3.api.InvalidNameException;
 }

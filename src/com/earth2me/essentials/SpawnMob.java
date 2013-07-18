@@ -1,5 +1,6 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
 import com.earth2me.essentials.utils.StringUtil;
 import static com.earth2me.essentials.I18n._;
 import com.earth2me.essentials.Mob.MobException;
@@ -20,6 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.HorseInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Colorable;
 
@@ -261,7 +263,7 @@ public class SpawnMob
 			}
 
 		}
-		
+
 		if (spawned instanceof Slime)
 		{
 			try
@@ -360,7 +362,7 @@ public class SpawnMob
 				((Zombie)spawned).setBaby(true);
 			}
 		}
-		
+
 		if (spawned instanceof Zombie || type == EntityType.SKELETON)
 		{
 			if (data.contains("sword"))
@@ -402,6 +404,106 @@ public class SpawnMob
 
 			}
 		}
+
+//		if (type == EntityType.HORSE)
+//		{
+//			if (data.contains("donkey"))
+//			{
+//				((Horse)spawned).setVariant(Horse.Variant.DONKEY);
+//			}
+//			else if (data.contains("mule"))
+//			{
+//				((Horse)spawned).setVariant(Horse.Variant.MULE);
+//			}
+//			else if (data.contains("skeleton"))
+//			{
+//				((Horse)spawned).setVariant(Horse.Variant.SKELETON_HORSE);
+//			}
+//			else if (data.contains("undead"))
+//			{
+//				((Horse)spawned).setVariant(Horse.Variant.UNDEAD_HORSE);
+//			}
+//
+//			if (data.contains("polka") || data.contains("sooty"))
+//			{
+//				((Horse)spawned).setStyle(Horse.Style.BLACK_DOTS);
+//			}
+//			else if (data.contains("socks") || data.contains("blaze"))
+//			{
+//				((Horse)spawned).setStyle(Horse.Style.WHITE);
+//			}
+//			else if (data.contains("leopard") || data.contains("appaloosa"))
+//			{
+//				((Horse)spawned).setStyle(Horse.Style.WHITE_DOTS);
+//			}
+//			else if (data.contains("splotchy") || data.contains("milky") || data.contains("paint"))
+//			{
+//				((Horse)spawned).setStyle(Horse.Style.WHITEFIELD);
+//			}
+//
+//			if (data.contains("black"))
+//			{
+//				((Horse)spawned).setColor(Horse.Color.BLACK);
+//			}
+//			else if (data.contains("chestnut") || data.contains("liver"))
+//			{
+//				((Horse)spawned).setColor(Horse.Color.CHESTNUT);
+//				data = data.replace("chestnut", "");
+//			}
+//			else if (data.contains("creamy") || data.contains("flaxen"))
+//			{
+//				((Horse)spawned).setColor(Horse.Color.CREAMY);
+//			}
+//			else if (data.contains("gray") || data.contains("dapple"))
+//			{
+//				((Horse)spawned).setColor(Horse.Color.GRAY);
+//			}
+//			else if (data.contains("dark") || data.contains("darkbrown") || data.contains("dbrown") || data.contains("buckskin"))
+//			{
+//				((Horse)spawned).setColor(Horse.Color.DARK_BROWN);
+//			}
+//			else if (data.contains("brown") || data.contains("bay"))
+//			{
+//				((Horse)spawned).setColor(Horse.Color.BROWN);
+//			}
+//
+//			if (data.contains("chest"))
+//			{
+//				((Horse)spawned).setTamed(true);
+//				((Horse)spawned).setCarryingChest(true);
+//			}
+//
+//			if (data.contains("saddle"))
+//			{
+//				((Horse)spawned).setTamed(true);
+//				((Horse)spawned).getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
+//			}
+//
+//			if (data.contains("armor"))
+//			{
+//				((Horse)spawned).setTamed(true);
+//				HorseInventory invent = ((Horse)spawned).getInventory();
+//				if (data.contains("gold")) {
+//					invent.setArmor(new ItemStack(Material.GOLD_BARDING, 1));
+//				}
+//				else if (data.contains("diamond"))
+//				{
+//					invent.setArmor(new ItemStack(Material.DIAMOND_BARDING, 1));
+//				}
+//				else
+//				{
+//					invent.setArmor(new ItemStack(Material.IRON_BARDING, 1));
+//				}
+//			}
+//		}
+//
+//		if (type == EntityType.PIG)
+//		{
+//			if (data.contains("saddle"))
+//			{
+//				((Pig)spawned).setSaddle(true);
+//			}
+//		}
 	}
 
 	private static void defaultMobData(final EntityType type, final Entity spawned)

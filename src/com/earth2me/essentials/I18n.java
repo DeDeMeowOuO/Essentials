@@ -1,6 +1,6 @@
 package com.earth2me.essentials;
 
-import com.earth2me.essentials.api.II18n;
+import net.ess3.api.IEssentials;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,9 +11,10 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 
-public class I18n implements II18n
+public class I18n implements net.ess3.api.II18n
 {
 	private static I18n instance;
 	private static final String MESSAGES = "messages";
@@ -24,6 +25,7 @@ public class I18n implements II18n
 	private final transient ResourceBundle defaultBundle;
 	private final transient Map<String, MessageFormat> messageFormatCache = new HashMap<String, MessageFormat>();
 	private final transient IEssentials ess;
+	private final static Pattern NODOUBLEMARK = Pattern.compile("''");
 
 	public I18n(final IEssentials ess)
 	{
@@ -77,7 +79,7 @@ public class I18n implements II18n
 		}
 		if (objects.length == 0)
 		{
-			return instance.translate(string);
+			return NODOUBLEMARK.matcher(instance.translate(string)).replaceAll("'");
 		}
 		else
 		{

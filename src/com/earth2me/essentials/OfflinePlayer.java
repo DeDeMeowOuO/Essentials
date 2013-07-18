@@ -1,5 +1,6 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
 import static com.earth2me.essentials.I18n._;
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -740,13 +741,13 @@ public class OfflinePlayer implements Player
 	@Override
 	public void setPlayerListName(String name)
 	{
-		throw new UnsupportedOperationException("Not supported yet.");
+		
 	}
 
 	@Override
 	public String getPlayerListName()
 	{
-		throw new UnsupportedOperationException("Not supported yet.");
+		return getName();
 	}
 
 	@Override
@@ -1161,7 +1162,7 @@ public class OfflinePlayer implements Player
 	}
 
 	@Override
-	public void setMaxHealth(double d)
+	public void setMaxHealth(double i)
 	{
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
@@ -1231,63 +1232,64 @@ public class OfflinePlayer implements Player
 	{
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
-        
-        @Override
-        public int _INVALID_getLastDamage()
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
 
-        @Override
-        public void _INVALID_setLastDamage(int i)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public int _INVALID_getLastDamage()
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-        @Override
-        public void _INVALID_damage(int i)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public void _INVALID_setLastDamage(int i)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-        @Override
-        public void _INVALID_damage(int i, Entity entity)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public void _INVALID_damage(int i)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-        @Override
-        public int _INVALID_getHealth()
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public void _INVALID_damage(int i, Entity entity)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-        @Override
-        public void _INVALID_setHealth(int i)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public int _INVALID_getHealth()
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-        @Override
-        public int _INVALID_getMaxHealth()
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public void _INVALID_setHealth(int i)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-        @Override
-        public void _INVALID_setMaxHealth(int i)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        @Override
-        public boolean isScaledHealth()
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public int _INVALID_getMaxHealth()
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-        @Override
-        public void setScaleHealth(boolean bln)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+	@Override
+	public void _INVALID_setMaxHealth(int i)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public boolean isScaledHealth()
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void setScaleHealth(boolean bln)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

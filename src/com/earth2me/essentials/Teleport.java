@@ -1,7 +1,8 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
+import net.ess3.api.IUser;
 import static com.earth2me.essentials.I18n._;
-import com.earth2me.essentials.api.ITeleport;
 import com.earth2me.essentials.utils.DateUtil;
 import com.earth2me.essentials.utils.LocationUtil;
 import java.util.Calendar;
@@ -12,8 +13,8 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 
-public class Teleport implements ITeleport
-{	
+public class Teleport implements net.ess3.api.ITeleport
+{
 	private final IUser teleportOwner;
 	private final IEssentials ess;
 	private TimedTeleport timedTeleport;

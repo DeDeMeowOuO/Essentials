@@ -1,9 +1,8 @@
 package com.earth2me.essentials.textreader;
 
-import com.earth2me.essentials.utils.DescParseTickFormat;
-import com.earth2me.essentials.IEssentials;
+import net.ess3.api.IEssentials;
 import com.earth2me.essentials.User;
-import com.earth2me.essentials.utils.StringUtil;
+import com.earth2me.essentials.utils.DescParseTickFormat;
 import com.earth2me.essentials.utils.NumberUtil;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -21,38 +20,39 @@ public class KeywordReplacer implements IText
 	private final transient IText input;
 	private final transient List<String> replaced;
 	private final transient IEssentials ess;
-        private final transient boolean extended;
-	
+	private final transient boolean extended;
+
 	public KeywordReplacer(final IText input, final CommandSender sender, final IEssentials ess)
 	{
 		this.input = input;
 		this.replaced = new ArrayList<String>(this.input.getLines().size());
 		this.ess = ess;
-                this.extended = true;
-                replaceKeywords(sender);
-        }
-
-        public KeywordReplacer(final IText input, final CommandSender sender, final IEssentials ess, final boolean extended)
-        {
-            this.input = input;
-            this.replaced = new ArrayList<String>(this.input.getLines().size());
-            this.ess = ess;
-            this.extended = extended;
-            replaceKeywords(sender);
+		this.extended = true;
+		replaceKeywords(sender);
 	}
-	
+
+	public KeywordReplacer(final IText input, final CommandSender sender, final IEssentials ess, final boolean extended)
+	{
+		this.input = input;
+		this.replaced = new ArrayList<String>(this.input.getLines().size());
+		this.ess = ess;
+		this.extended = extended;
+		replaceKeywords(sender);
+	}
+
 	private void replaceKeywords(final CommandSender sender)
 	{
 		String displayName, ipAddress, balance, mails, world;
 		String worlds, online, unique, playerlist, date, time;
 		String worldTime12, worldTime24, worldDate, plugins;
-		String userName, version;
+		String userName, version, address;
 		if (sender instanceof Player)
 		{
 			final User user = ess.getUser(sender);
 			user.setDisplayNick();
-			displayName = user.getDisplayName();
+			displayName = user.getDisplayName();			
 			ipAddress = user.getAddress() == null || user.getAddress().getAddress() == null ? "" : user.getAddress().getAddress().toString();
+			address = user.getAddress() == null ? "" : user.getAddress().toString();
 			balance = NumberUtil.displayCurrency(user.getMoney(), ess);
 			mails = Integer.toString(user.getMails().size());
 			world = user.getLocation() == null || user.getLocation().getWorld() == null ? "" : user.getLocation().getWorld().getName();
@@ -62,10 +62,10 @@ public class KeywordReplacer implements IText
 		}
 		else
 		{
-			displayName = ipAddress = balance = mails = world = worldTime12 = worldTime24 = worldDate = "";
+			displayName = address = ipAddress = balance = mails = world = worldTime12 = worldTime24 = worldDate = "";
 		}
 
-                userName = sender.getName();
+		userName = sender.getName();
 		int playerHidden = 0;
 		for (Player p : ess.getServer().getOnlinePlayers())
 		{
@@ -125,7 +125,7 @@ public class KeywordReplacer implements IText
 
 			line = line.replace("{PLAYER}", displayName);
 			line = line.replace("{DISPLAYNAME}", displayName);
-			line = line.replace("{USERNAME}", userName);
+			line = line.replace("{USERNAME}", userName);			
 			line = line.replace("{BALANCE}", balance);
 			line = line.replace("{MAILS}", mails);
 			line = line.replace("{WORLD}", world);
@@ -138,14 +138,14 @@ public class KeywordReplacer implements IText
 			line = line.replace("{WORLDTIME12}", worldTime12);
 			line = line.replace("{WORLDTIME24}", worldTime24);
 			line = line.replace("{WORLDDATE}", worldDate);
-			   
-                        if (extended)
-                        {
-                            line = line.replace("{IP}", ipAddress);
-                            line = line.replace("{ADDRESS}", ipAddress);
-                            line = line.replace("{PLUGINS}", plugins);
-                            line = line.replace("{VERSION}", version);
-                        }
+			
+			if (extended)
+			{
+				line = line.replace("{IP}", ipAddress);
+				line = line.replace("{ADDRESS}", address);
+				line = line.replace("{PLUGINS}", plugins);
+				line = line.replace("{VERSION}", version);
+			}
 
 			replaced.add(line);
 		}

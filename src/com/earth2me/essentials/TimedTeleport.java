@@ -1,5 +1,7 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
+import net.ess3.api.IUser;
 import static com.earth2me.essentials.I18n._;
 import org.bukkit.Location;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -40,7 +42,7 @@ public class TimedTeleport implements Runnable
 		this.timer_initX = Math.round(teleportUser.getBase().getLocation().getX() * MOVE_CONSTANT);
 		this.timer_initY = Math.round(teleportUser.getBase().getLocation().getY() * MOVE_CONSTANT);
 		this.timer_initZ = Math.round(teleportUser.getBase().getLocation().getZ() * MOVE_CONSTANT);
-		this.timer_teleportee = teleportUser.getBase().getName();
+		this.timer_teleportee = teleportUser.getName();
 		this.timer_teleportTarget = target;
 		this.timer_chargeFor = chargeFor;
 		this.timer_cause = cause;

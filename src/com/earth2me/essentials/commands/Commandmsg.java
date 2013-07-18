@@ -4,7 +4,6 @@ import com.earth2me.essentials.Console;
 import static com.earth2me.essentials.I18n._;
 import com.earth2me.essentials.IReplyTo;
 import com.earth2me.essentials.User;
-import com.earth2me.essentials.utils.StringUtil;
 import com.earth2me.essentials.utils.FormatUtil;
 import java.util.List;
 import org.bukkit.Server;
@@ -82,13 +81,13 @@ public class Commandmsg extends EssentialsCommand
 			}
 
 			matchPlayer.sendMessage(_("msgFormat", senderName, translatedMe, message));
-			replyTo.setReplyTo(matchedUser.getBase());
+			replyTo.setReplyTo(matchPlayer);
 			ess.getUser(matchPlayer).setReplyTo(sender);
 		}
 
 		if (!foundUser)
 		{
-			throw new Exception(_("playerNotFound"));
+			throw new PlayerNotFoundException();
 		}
 	}
 }

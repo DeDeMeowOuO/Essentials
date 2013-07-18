@@ -1,14 +1,14 @@
 package com.earth2me.essentials.api;
 
-import com.earth2me.essentials.IUser;
 import com.earth2me.essentials.Trade;
+import net.ess3.api.IUser;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 
 public interface ITeleport
-{		
+{
 	/**
 	 * Used to skip teleportPlayer delay when teleporting someone to a location or player.
 	 *
@@ -17,7 +17,7 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	void now(Location loc, boolean cooldown, TeleportCause cause) throws Exception;
+	void now(Location loc, boolean cooldown, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	/**
 	 * Used to skip teleportPlayer delay when teleporting someone to a location or player.
@@ -27,11 +27,11 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	void now(Player entity, boolean cooldown, TeleportCause cause) throws Exception;
+	void now(Player entity, boolean cooldown, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	@Deprecated
 	void teleport(Location loc, Trade chargeFor) throws Exception;
-	
+
 	/**
 	 * Teleport a player to a specific location
 	 *
@@ -40,7 +40,7 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	void teleport(Location loc, Trade chargeFor, TeleportCause cause) throws Exception;
+	void teleport(Location loc, Trade chargeFor, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	/**
 	 * Teleport a player to a specific player
@@ -50,8 +50,8 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	void teleport(Player entity, Trade chargeFor, TeleportCause cause) throws Exception;
-	
+	void teleport(Player entity, Trade chargeFor, PlayerTeleportEvent.TeleportCause cause) throws Exception;
+
 		/**
 	 * Teleport a player to a specific location
 	 *
@@ -61,7 +61,7 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	void teleportPlayer(IUser otherUser, Location loc, Trade chargeFor, TeleportCause cause) throws Exception;
+	void teleportPlayer(IUser otherUser, Location loc, Trade chargeFor, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	/**
 	 * Teleport a player to a specific player
@@ -72,7 +72,7 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	void teleportPlayer(IUser otherUser, Player entity, Trade chargeFor, TeleportCause cause) throws Exception;
+	void teleportPlayer(IUser otherUser, Player entity, Trade chargeFor, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	/**
 	 * Teleport wrapper used to handle teleporting players to them, like /tphere
@@ -82,7 +82,7 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	public void teleportToMe(IUser otherUser, Trade chargeFor, TeleportCause cause) throws Exception;
+	public void teleportToMe(IUser otherUser, Trade chargeFor, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	/**
 	 * Teleport wrapper used to handle tp fallback on /jail and /home
@@ -91,7 +91,7 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	public void respawn(final Trade chargeFor, TeleportCause cause) throws Exception;
+	public void respawn(final Trade chargeFor, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	/**
 	 * Teleport wrapper used to handle /warp teleports
@@ -102,7 +102,7 @@ public interface ITeleport
 	 * @param cause - The reported teleportPlayer cause
 	 * @throws Exception
 	 */
-	public void warp(IUser otherUser, String warp, Trade chargeFor, TeleportCause cause) throws Exception;
+	public void warp(IUser otherUser, String warp, Trade chargeFor, PlayerTeleportEvent.TeleportCause cause) throws Exception;
 
 	/**
 	 * Teleport wrapper used to handle /back teleports

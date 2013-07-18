@@ -1,5 +1,6 @@
 package com.earth2me.essentials;
 
+import net.ess3.api.IEssentials;
 import static com.earth2me.essentials.I18n._;
 import com.earth2me.essentials.commands.IEssentialsCommand;
 import com.earth2me.essentials.register.payment.Method;
@@ -20,7 +21,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 
-public class User extends UserData implements Comparable<User>, IReplyTo, IUser
+public class User extends UserData implements Comparable<User>, IReplyTo, net.ess3.api.IUser
 {
 	private CommandSender replyTo = null;
 	private transient String teleportRequester;
@@ -37,10 +38,8 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 	private boolean invSee = false;
 	private boolean recipeSee = false;
 	private boolean enderSee = false;
-        private boolean vampire = false;
 	private static final Logger logger = Logger.getLogger("Minecraft");
-        private transient String user;
-        
+
 	User(final Player base, final IEssentials ess)
 	{
 		super(base, ess);
@@ -110,6 +109,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 		}
 	}
 
+	@Override
 	public void healCooldown() throws Exception
 	{
 		final Calendar now = new GregorianCalendar();
@@ -134,6 +134,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 		giveMoney(value, null);
 	}
 
+	@Override
 	public void giveMoney(final BigDecimal value, final CommandSender initiator)
 	{
 		if (value.signum() == 0)
@@ -148,6 +149,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 		}
 	}
 
+	@Override
 	public void payUser(final User reciever, final BigDecimal value) throws Exception
 	{
 		if (value.signum() == 0)
@@ -173,6 +175,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 		takeMoney(value, null);
 	}
 
+	@Override
 	public void takeMoney(final BigDecimal value, final CommandSender initiator)
 	{
 		if (value.signum() == 0)
@@ -213,48 +216,9 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 	}
 
 	@Override
-	public void setReplyTo(final CommandSender user)
-	{
-		replyTo = user;
-	}
-
-	@Override
-	public CommandSender getReplyTo()
-	{
-		return replyTo;
-	}
-
-	@Override
-	public int compareTo(final User other)
-	{
-		return FormatUtil.stripFormat(this.getDisplayName()).compareToIgnoreCase(FormatUtil.stripFormat(other.getDisplayName()));
-	}
-
-	@Override
-	public boolean equals(final Object object)
-	{
-		if (!(object instanceof User))
-		{
-			return false;
-		}
-		return this.getName().equalsIgnoreCase(((User)object).getName());
-
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return this.getName().hashCode();
-	}
-
 	public Boolean canSpawnItem(final int itemId)
 	{
 		return !ess.getSettings().itemSpawnBlacklist().contains(itemId);
-	}
-
-	public Location getHome() throws Exception
-	{
-		return getHome(getHomes().get(0));
 	}
 
 	@Override
@@ -299,6 +263,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 		else
 		{
 			nickname = ess.getSettings().getNicknamePrefix() + nick;
+			suffix = "§r";
 		}
 
 		if (isOp())
@@ -633,11 +598,13 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 		return ess.getPermissionsHandler().getGroup(base);
 	}
 
+	@Override
 	public boolean inGroup(final String group)
 	{
 		return ess.getPermissionsHandler().inGroup(base, group);
 	}
 
+	@Override
 	public boolean canBuild()
 	{
 		if (isOp())
@@ -673,6 +640,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 	}
 	private transient long teleportInvulnerabilityTimestamp = 0;
 
+	@Override
 	public void enableInvulnerabilityAfterTeleport()
 	{
 		final long time = ess.getSettings().getTeleportInvulnerability();
@@ -682,6 +650,7 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 		}
 	}
 
+	@Override
 	public void resetInvulnerabilityAfterTeleport()
 	{
 		if (teleportInvulnerabilityTimestamp != 0
@@ -783,6 +752,46 @@ public class User extends UserData implements Comparable<User>, IReplyTo, IUser
 	{
 		this.recipeSee = recipeSee;
 	}
+	
+	@Override
+	public void sendMessage(String message) {
+		if (!message.isEmpty()) {
+			base.sendMessage(message);
+		}
+	}
+	
+	@Override
+	public void setReplyTo(final CommandSender user)
+	{
+		replyTo = user;
+	}
+
+	@Override
+	public CommandSender getReplyTo()
+	{
+		return replyTo;
+	}
+
+	@Override
+	public int compareTo(final User other)
+	{
+		return FormatUtil.stripFormat(this.getDisplayName()).compareToIgnoreCase(FormatUtil.stripFormat(other.getDisplayName()));
+	}
+
+	@Override
+	public boolean equals(final Object object)
+	{
+		if (!(object instanceof User))
+		{
+			return false;
+		}
+		return this.getName().equalsIgnoreCase(((User)object).getName());
+
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return this.getName().hashCode();
+	}
 }
-
-
