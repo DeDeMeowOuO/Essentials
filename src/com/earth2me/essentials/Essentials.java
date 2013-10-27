@@ -260,7 +260,6 @@ public class Essentials extends MPlugin implements net.ess3.api.IEssentials
 		{
 			LOGGER.log(Level.INFO, "Essentials load " + timeroutput);
 		}
-            postEnable();
 	}
 
 	@Override

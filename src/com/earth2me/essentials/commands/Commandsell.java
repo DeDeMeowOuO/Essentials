@@ -59,7 +59,7 @@ public class Commandsell extends EssentialsCommand
 				}
 			}
 		}
-		if (count > 1 && totalWorth.signum() > 0)
+		if (count != 1)
 		{
 			if (args[0].equalsIgnoreCase("blocks"))
 			{
@@ -82,12 +82,15 @@ public class Commandsell extends EssentialsCommand
 			throw new Exception(_("itemCannotBeSold"));
 		}
 
-		BigDecimal result = worth.multiply(BigDecimal.valueOf(amount));
-
-		if (amount == 0)
+		if (amount <= 0)
 		{
-			return result;
+			if (!isBulkSell) {
+				user.sendMessage(_("itemSold", NumberUtil.displayCurrency(BigDecimal.ZERO, ess), BigDecimal.ZERO, is.getType().toString().toLowerCase(Locale.ENGLISH), NumberUtil.displayCurrency(worth, ess)));
+			}
+			return BigDecimal.ZERO;
 		}
+		
+		BigDecimal result = worth.multiply(BigDecimal.valueOf(amount));
 
 		//TODO: Prices for Enchantments
 		final ItemStack ris = is.clone();

@@ -84,9 +84,9 @@ public class Commandseen extends EssentialsCommand
 			sender.sendMessage(_("whoisAFK"));
 		}
                 else if ( ! user.isAfk())
-                {
+		{
                         sender.sendMessage(_("whonotAFK"));
-                }
+		}
                 if (user.isBanned())
 		{
 			sender.sendMessage(_("whoisBanned", user.getBanReason()));
@@ -135,7 +135,7 @@ public class Commandseen extends EssentialsCommand
 			sender.sendMessage(_("whoisIPAddress", user.getAddress().getAddress().toString()));
 		}
 
-                }
+	}
 	private void seenOffline(final Server server, final CommandSender sender, User user, final boolean showBan, final boolean extra) throws Exception
 	{
 		user.setDisplayNick();
@@ -143,14 +143,14 @@ public class Commandseen extends EssentialsCommand
                 
                 sender.sendMessage(_("showDisplayName", user.getDisplayName()));
 		if (user.getLastLogout() > 0)
-		{ 
+		{
 			sender.sendMessage(_("seenOffline", DateUtil.formatDateDiff(user.getLastLogout())));
 		}
 		else
 		{
 			sender.sendMessage(_("userUnknown", user.getName()));
 		}
-                if (user.isBanned())
+		if (user.isBanned())
 		{
 			sender.sendMessage(_("whoisBanned", user.getBanReason()));
 		}
@@ -199,8 +199,8 @@ public class Commandseen extends EssentialsCommand
 			{
 				sender.sendMessage(_("whoisIPAddress", user.getLastLoginAddress()));
 			}
+			}
 		}
-	}
 
 	private void seenIP(final Server server, final CommandSender sender, final String ipAddress) throws Exception
 	{
