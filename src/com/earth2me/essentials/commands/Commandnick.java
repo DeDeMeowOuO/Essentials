@@ -88,7 +88,7 @@ public class Commandnick extends EssentialsCommand
 
 	private void setNickname(final Server server, final User target, final String nick) throws Exception
 	{
-		if (!nick.matches("^[a-zA-Z_0-9\u00a7]+$"))
+		if (!nick.matches("^[a-zA-Z_0-9&|\u0000-\uffff§]+$"))
 		{
 			throw new Exception(_("nickNamesAlpha"));
 		}
